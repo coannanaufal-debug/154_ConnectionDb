@@ -2,7 +2,7 @@ import express from "express";
 import pg from 'pg'
 const app = express()
 const port = 3000
-const { pool } = pg
+const { Pool } = pg
 
 app.use(express.json())
 app.use(
@@ -11,7 +11,7 @@ app.use(
     })
 )
 
-const pool = new pool({
+const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'mahasiswa',
@@ -21,7 +21,7 @@ const pool = new pool({
 
 app.get('/', (req, res, next) => {
     console.log("TEST DATA :");
-    pool.query('SELECT * FROM biodata',)
+    Pool.query('SELECT * FROM biodata',)
         .then((testData) => {
             console.log(testData);
             res.send(testData.rows)
@@ -31,3 +31,6 @@ app.get('/', (req, res, next) => {
             res.status(500).send('internal server error');
         })
 })
+app.listen(port, () => {
+    console.log(`App running on port ${port}`)
+} )
